@@ -1,0 +1,30 @@
+{% extends 'base.html' %}{% block title %}
+New inspection{% endblock %}{% block content %}
+<div class="shell page-head"><div>
+    <p class="eyebrow">IMAGE INSPECTION</p>
+    <h1>Start a focused review.</h1>
+    <p>Upload one clear railway image. The model output will be stored with your inspection record.</p>
+</div>
+</div>
+<div class="shell inspection-layout">
+    <section class="upload-panel"><form id="inspection-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="inspection-mode"><strong>Inspection mode</strong></label>
+        <select id="inspection-mode" name="mode" class="inspection-mode">
+            <option value="detection" selected>Object detection (standard)</option>
+            <option value="segmentation">Segmentation masks (experimental)</option>
+        </select>
+        <p class="mode-help" id="mode-help">Standard mode uses the existing RDDS detection model.</p>
+        <label class="dropzone" id="dropzone"><input id="image-input" type="file" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden><span class="upload-icon">+</span>
+            <strong>Drop an image here</strong>
+            <span>or choose a JPG, PNG, or WEBP file</span>
+        </label><div id="preview" class="preview hidden"><img id="preview-image" alt="Selected inspection preview"><div>
+            <strong id="file-name"></strong>
+            <span id="file-size"></span></div>
+            <button type="button" class="text-button" id="remove-file">Remove image</button></div>
+            <button id="analyze-button" class="button full" type="submit" disabled>Analyze image <span>↗</span>
+            </button><div id="analysis-message" class="analysis-message" role="status"></div>
+        </form>
+    </section>
+    <aside class="side-note"><span class="eyebrow">BEFORE YOU UPLOAD</span><ul><li>Use a sharp, well-lit image.</li><li>Accepted formats: JPG, JPEG, PNG, WEBP.</li><li>Maximum file size: 10 MB.</li><li>Predictions require human review.</li><li>Segmentation mode is experimental and may miss defects.</li></ul></aside></div>{% endblock %}{% block scripts %}
+    <script src="{{ url_for('static', filename='js/inspection.js') }}"></script>
+    {% endblock %}

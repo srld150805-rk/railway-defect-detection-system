@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="shell page-head">
+  <div>
+    <p class="eyebrow">PROFILE</p>
+    <h1>Settings</h1>
+  </div>
+</div>
+
+<div class="shell section profile-section">
+  <div class="profile-layout">
+    <aside class="profile-card profile-summary">
+      <div class="profile-header">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-meta">
+          <span class="eyebrow">ACCOUNT</span>
+          <h2>{{ user.name }}</h2>
+          <p class="profile-role">{{ user.role.title() }}</p>
+        </div>
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-detail">
+          <label>Email</label>
+          <span>{{ user.email }}</span>
+        </div>
+        <div class="profile-detail">
+          <label>Access</label>
+          <span>{{ 'Active' if user.is_active else 'Inactive' }}</span>
+        </div>
+        <div class="profile-detail">
+          <label>Member since</label>
+          <span>{{ user.created_at.strftime('%b %d, %Y') }}</span>
+        </div>
+        <div class="profile-detail">
+          <label>Role</label>
+          <span>{{ user.role }}</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="profile-card profile-settings">
+      <div class="settings-section-header">
+        <h3>Edit profile</h3>
+      </div>
+      <form class="settings-form" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-row">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" value="{{ user.name }}" required>
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" value="{{ user.email }}" required>
+        </div>
+        <div class="settings-actions">
+          <button class="button button-small" type="submit">Save changes</button>
+          <a class="text-button" href="{{ url_for('main.dashboard') }}">Back to dashboard</a>
+        </div>
+      </form>
+
+      <div class="settings-divider"></div>
+
+      <div class="settings-section-header logout-header">
+        <h3>Sign out</h3>
+      </div>
+      <form method="post" action="{{ url_for('auth.logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-small danger-button" type="submit">Log out</button>
+      </form>
+    </section>
+  </div>
+</div>
+{% endblock %}

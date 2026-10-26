@@ -1,0 +1,10 @@
+path: C:/Users/srld9/railways/datasets/railway_combined_v1
+train: images/train
+val: images/val
+test: images/test
+nc: 4
+names:
+- spalling
+- wheel burn
+- squat
+- rail_fracture

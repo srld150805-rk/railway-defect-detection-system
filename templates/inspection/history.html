@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Inspection history{% endblock %}
+{% block content %}
+<div class="shell page-head"><div><p class="eyebrow">RECORDS</p><h1>Inspection history</h1><p>Search your image-based inspection evidence.</p></div><a class="button" href="{{ url_for('inspections.new_inspection') }}">New inspection</a></div>
+<div class="shell table-panel">
+  <form class="search-bar"><input name="q" value="{{ term }}" placeholder="Search inspection ID"><button class="button button-small">Search</button></form>
+  <p id="history-message" role="status" aria-live="polite">Loading inspection history…</p>
+  <div class="table-wrap{% if not inspections %} hidden{% endif %}" id="history-table"><table><thead><tr><th>Inspection</th><th>Date</th><th>Status</th><th>Defects and confidence</th><th>Image</th><th></th></tr></thead><tbody id="history-rows">
+  {% for item in inspections %}<tr><td><a href="{{ url_for('inspections.detail', inspection_id=item.id) }}">INS-{{ '%04d'|format(item.id) }}</a></td><td>{{ item.created_at.strftime('%d %b %Y %H:%M') }}</td><td><span class="status {{ item.status|lower }}">{{ item.status }}</span></td><td>{% if item.detections %}{% for detection in item.detections %}{{ detection.defect_class }} ({{ '%.0f'|format(detection.confidence * 100) }}%){% if not loop.last %}<br>{% endif %}{% endfor %}{% else %}No defects detected{% endif %}</td><td>{{ item.image_filename }}</td><td><a class="text-link" href="{{ url_for('inspections.detail', inspection_id=item.id) }}">Open</a></td></tr>{% endfor %}
+  </tbody></table></div>
+  <div class="empty{% if inspections %} hidden{% endif %}" id="history-empty"><strong>No inspections found.</strong><p>Start your first inspection to see it here.</p></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/history.js') }}"></script>{% endblock %}

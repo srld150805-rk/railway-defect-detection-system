@@ -1,7 +1,45 @@
+# Environment variables and secrets
 .env
+.env.*
+!.env.example
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache and test files
 __pycache__/
+*.py[cod]
 .pytest_cache/
+*.pyo
+
+# Local database and instance data
 instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# User uploads and generated outputs
 uploads/
-models/*.pt
-*.pyc
+outputs/
+runs/
+
+# Datasets and archives
+dataset/
+datasets/
+*.zip
+
+# Model checkpoints
+# Keep required model files out of Git only if you plan to host them separately.
+# Uncomment the next line to exclude every .pt file:
+# models/*.pt
+
+# Logs
+*.log
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
